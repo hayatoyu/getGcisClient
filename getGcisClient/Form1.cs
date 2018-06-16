@@ -59,21 +59,12 @@ namespace getGcisClient
             // 先檢查各項設定有沒有設
             if(ValidateConnect())
             {
-                Console.WriteLine("資料驗證成功...準備連線");            
-                
-                // 取得資料
-                ComRequest comRequest = new ComRequest();
-                comRequest.comList = getListFromExcel(txt_FilePath.Text);
+                Console.WriteLine("資料驗證成功...準備連線");
 
-                // 等待 Server Ready
+                Client client = new Client(txt_ServerIP.Text, txt_Port.Text, txt_FilePath.Text, txt_SaveFolder.Text, this);
+                btn_Connect.Enabled = false;
+                client.Connect();
 
-                // 傳送公司名稱列表
-
-                // 等到查詢
-                
-                // 收到回傳結果
-
-                // 解 Json 寫入 Excel
             }
         }
 
@@ -125,36 +116,6 @@ namespace getGcisClient
             return v_server && v_port && v_filepath && v_folderpath;
         }
 
-        private string[] getListFromExcel(string filepath)
-        {
-            HSSFWorkbook wb = null;
-            HSSFSheet ws = null;
-            List<string> list = new List<string>();
-            int index = 1;
-
-            try
-            {
-                using (FileStream fs = new FileStream(filepath, FileMode.Open, FileAccess.Read))
-                {
-                    wb = new HSSFWorkbook(fs);
-                }
-                ws = wb.GetSheetAt(0) as HSSFSheet;
-                while(ws.GetRow(index) != null)
-                {
-                    list.Add(ws.GetRow(index).GetCell(0).StringCellValue);
-                    index++;
-                }
-            }
-            catch(Exception e)
-            {
-                Console.WriteLine(e.Message);
-            }
-            finally
-            {
-                if(wb != null)
-                    wb.Close();
-            }
-            return list.ToArray();
-        }
+        
     }
 }
