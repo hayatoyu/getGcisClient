@@ -125,18 +125,16 @@ namespace getGcisClient
                 {
                     // Server斷線
                     MessageBox.Show(e.Message);
-                }
-                finally
-                {
-                    if (result.Count > 0)
-                        writer.Output(savepath);
-                    MessageBox.Show("連線中斷，先導出部分資料");
-                    
+                    netStream.Close();
+                    client.Close();
                 }
 
+
             }
-            netStream.Close();
-            client.Close();
+            if (result.Count > 0)
+                writer.Output(savepath);
+            MessageBox.Show("連線中斷，先導出部分資料");
+
         }
 
         private void ReadFromExcel()
