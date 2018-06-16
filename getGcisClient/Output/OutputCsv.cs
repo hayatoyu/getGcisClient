@@ -7,6 +7,9 @@ using System.IO;
 
 namespace getGcisClient.Output
 {
+    /*
+     * 輸出成 CSV
+     */
     class OutputCsv : OutputFile
     {
         public OutputCsv(List<CompanyInfoResult> result) : base(result) { }

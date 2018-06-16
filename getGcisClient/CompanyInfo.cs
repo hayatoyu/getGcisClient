@@ -7,6 +7,9 @@ using Newtonsoft.Json;
 
 namespace getGcisClient
 {
+    /*
+     * 詳見 Server 端
+     */
     public class CompanyInfo
     {
         [JsonProperty("Business_Accounting_NO")]

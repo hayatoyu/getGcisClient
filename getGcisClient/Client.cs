@@ -29,6 +29,9 @@ namespace getGcisClient
         delegate void UpdateBtn();
         delegate string returnFileType();
 
+        /*
+         * IP 和 Port 有預設值，存放在 AppConfig檔案中
+         */
         public Client(string IPAddr, string port, string FilePath, string OutputFolder, Form1 form)
         {
             this.IPAddr = IPAddr;
@@ -64,12 +67,22 @@ namespace getGcisClient
             }
             finally
             {
+                // 在 CommunicateWithServer() 結束後，才將連線按鈕開啟。因為該按鈕是由主執行緒產生的，必須委託給主執行緒去處理。
                 myForm.Invoke(new UpdateBtn(() => { myForm.btn_Connect.Enabled = true; }));
             }
             
             
         }
-
+        /*
+         * 當收到 Server 傳來的訊息時
+         *  1. added 表示已經收到連線請求，並排入等待。
+         *  2. ready 表示 Server 已經準備好接收查詢列表。
+         *  3. 收到 result: 開頭的訊息，表示此為 Server 回傳的公司基本資料。
+         *  4. finish 表示查詢作業已經完成。
+         *  Server 回傳的資料因為是一筆一筆回傳，基本上不會超過 buffer 大小。
+         *  本來有想過全部查完再一次回傳，但風險太高，途中如果發生錯誤，那 Client 可能經過漫長等待還無法收到回應。
+         *  一筆一筆傳先儲存在 Client 端，即使 Server 發生錯誤，Client 也能輸出部分資料，下次再從還沒查的地方繼續。
+         */
         private void CommunicateWithServer()
         {
             int reclength = 0;
@@ -77,6 +90,7 @@ namespace getGcisClient
             byte[] buffer = new byte[1024];
             List<CompanyInfoResult> result = new List<CompanyInfoResult>();
             string savepath = OutputFolder + @"\" + DateTime.Now.ToString("yyyyMMddHHmmss");
+            // 這裡要讀取使用者選擇的輸出檔案類型，同樣要委託主執行緒去取得。
             savepath += myForm.Invoke(new returnFileType(() => { return myForm.cb_OutputType.SelectedItem.ToString(); }));
             OutputFile writer = null;
             if (savepath.EndsWith(".csv"))
@@ -115,7 +129,7 @@ namespace getGcisClient
                         }
                         else if (recMessage.StartsWith("result:"))
                         {
-                            // 一般資料
+                            // 公司資料
                             try
                             {
                                 recMessage = recMessage.Replace("result:", string.Empty);
@@ -149,6 +163,9 @@ namespace getGcisClient
 
         }
 
+        /*
+         * 讀取查詢列表，沒什麼好說的
+         */
         private void ReadFromExcel()
         {
             IWorkbook wb = null;

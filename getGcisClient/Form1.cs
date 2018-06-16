@@ -32,10 +32,10 @@ namespace getGcisClient
             InitializeComponent();
             txt_ServerIP.Text = ConfigurationManager.AppSettings["serverIP"];
             txt_Port.Text = ConfigurationManager.AppSettings["port"];
-            AllocConsole();
+            AllocConsole();     // 這行的意思是我把程式中 Console 輸出的訊息，都顯示到 Console 的視窗中。
             //Console.Beep();
             Console.WriteLine("===== 歡迎使用商工行政開放資料服務 =====");
-            Console.WriteLine("注意：請不要關閉此視窗");
+            Console.WriteLine("注意：請不要關閉此視窗");       // 用了 AllocConsole() 後，關掉 Console 視窗程式也會終止。
         }
 
         private void btn_SelectFile_Click(object sender, EventArgs e)
@@ -62,7 +62,7 @@ namespace getGcisClient
                 Console.WriteLine("資料驗證成功...準備連線至 {0}，連接埠 {1}...",txt_ServerIP.Text,txt_Port.Text);
 
                 Client client = new Client(txt_ServerIP.Text, txt_Port.Text, txt_FilePath.Text, txt_SaveFolder.Text, this);
-                btn_Connect.Enabled = false;
+                btn_Connect.Enabled = false;        // 查詢過程相當漫長，為了防止 User 手賤一直給我點連線按鈕，我乾脆直接把按鈕關掉直到查詢完畢。
                 client.Connect();
 
             }
@@ -79,6 +79,11 @@ namespace getGcisClient
             {
                 try
                 {
+                    /*
+                     * 判斷 IP 這我沒有用正規表示式，因為要寫蠻長的(限制 0 ~ 255 的範圍)
+                     * 相反的我是直接把字串用 "." 拆開後，針對拆開後的每個字串轉 int，並判斷有沒有在合法範圍之內
+                     * 如果字串不能轉為int，跳出例外的話，也表示這值不正確。
+                     */
                     v_server = ip.All(i => int.Parse(i) >= 0 && int.Parse(i) <= 255);                    
                 }
                 catch(Exception e)

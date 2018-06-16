@@ -12,6 +12,10 @@ using System.Threading;
 
 namespace getGcisClient.Output
 {
+    /*
+     * 輸出成 Excel
+     * 能有 xls 和 xlsx 兩種格式
+     */
     class OutputExcel : OutputFile
     {
         public OutputExcel(List<CompanyInfoResult> result) : base(result) { }
