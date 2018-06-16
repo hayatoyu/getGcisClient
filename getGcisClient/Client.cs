@@ -92,6 +92,7 @@ namespace getGcisClient
                             writer.Output(savepath);
                             MessageBox.Show("匯出完成！");
                             result.Clear();
+                            client.Close();
 
                         }
                         else if (recMessage.Equals("added"))
@@ -132,8 +133,12 @@ namespace getGcisClient
 
             }
             if (result.Count > 0)
+            {
                 writer.Output(savepath);
-            MessageBox.Show("連線中斷，先導出部分資料");
+                MessageBox.Show("連線中斷，先導出部分資料");
+            }
+                
+            
 
         }
 

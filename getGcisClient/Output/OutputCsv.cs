@@ -44,6 +44,8 @@ namespace getGcisClient.Output
                         Note += "此名稱有多筆公司資料";
                     if (result[i].ErrNotice)
                         Note += "查詢此筆資料時連線錯誤，請人工確認是否正確";
+                    if (result[i].NoData)
+                        Note += "查無資料！";
                     if (!string.IsNullOrEmpty(Note))
                         stbr.Append("," + Note);
 
