@@ -59,7 +59,7 @@ namespace getGcisClient
             // 先檢查各項設定有沒有設
             if(ValidateConnect())
             {
-                Console.WriteLine("資料驗證成功...準備連線");
+                Console.WriteLine("資料驗證成功...準備連線至 {0}，連接埠 {1}...",txt_ServerIP.Text,txt_Port.Text);
 
                 Client client = new Client(txt_ServerIP.Text, txt_Port.Text, txt_FilePath.Text, txt_SaveFolder.Text, this);
                 btn_Connect.Enabled = false;
