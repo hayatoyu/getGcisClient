@@ -56,13 +56,18 @@ namespace getGcisClient
             {
                 client.Connect(IPAddr, port);
                 client.ReceiveBufferSize = 1024;
+                CommunicateWithServer();
             }
             catch (Exception e)
             {
                 Console.WriteLine(e.Message);
             }
-            CommunicateWithServer();
-            myForm.Invoke(new UpdateBtn(() => { myForm.btn_Connect.Enabled = true; }));
+            finally
+            {
+                myForm.Invoke(new UpdateBtn(() => { myForm.btn_Connect.Enabled = true; }));
+            }
+            
+            
         }
 
         private void CommunicateWithServer()
