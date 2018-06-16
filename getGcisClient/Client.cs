@@ -106,10 +106,12 @@ namespace getGcisClient
                         }
                         else if (recMessage.Equals("ready"))
                         {
+                            Console.WriteLine("開始讀取 Excel 公司列表...");
                             comList.Clear();
                             ReadFromExcel();
                             ComRequest request = new ComRequest { comList = comList.ToArray() };
                             SendToServer(netStream, JsonConvert.SerializeObject(request));
+                            Console.WriteLine("送出查詢清單...");
                         }
                         else if (recMessage.StartsWith("result:"))
                         {
