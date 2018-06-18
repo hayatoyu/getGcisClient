@@ -109,9 +109,10 @@ namespace getGcisClient
                         if (recMessage.Equals("finish"))
                         {
                             writer.Output(savepath);
-                            MessageBox.Show("匯出完成！");
+                            
                             result.Clear();
                             client.Close();
+                            MessageBox.Show("匯出完成！");
 
                         }
                         else if (recMessage.Equals("added"))
