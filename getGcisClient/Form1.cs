@@ -70,7 +70,7 @@ namespace getGcisClient
 
         private bool ValidateConnect()
         {
-            bool v_server = true,v_port = true,v_filepath = true,v_folderpath = true;
+            bool v_server = true,v_port = true,v_filepath = true,v_folderpath = true,v_outfiletype = true;
             var ip = txt_ServerIP.Text.Split('.');
             int port;            
 
@@ -117,8 +117,11 @@ namespace getGcisClient
             if (!v_folderpath)
                 MessageBox.Show("儲存路徑設定有誤，請檢查。");
 
+            if (!(v_outfiletype = (cb_OutputType.SelectedItem != null)))
+                MessageBox.Show("請選擇檔案輸出類型。");
+            
 
-            return v_server && v_port && v_filepath && v_folderpath;
+            return v_server && v_port && v_filepath && v_folderpath && v_outfiletype;
         }
 
         
