@@ -42,6 +42,7 @@ namespace getGcisClient.Output
             TitleRow.CreateCell(9).SetCellValue("最後核准變更日期");
             TitleRow.CreateCell(10).SetCellValue("備註");
 
+            result = CompanySort(result);
             for (int i = 0; i < result.Count; i++)
             {
                 string Note = string.Empty;
@@ -79,5 +80,6 @@ namespace getGcisClient.Output
                 wb.Close();
             }
         }
+
     }
 }

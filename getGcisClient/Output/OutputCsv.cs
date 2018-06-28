@@ -27,6 +27,7 @@ namespace getGcisClient.Output
 
                 writer.Write(stbr.ToString());
                 stbr.Clear();
+                result = CompanySort(result);
                 for(int i = 0;i < result.Count;i++)
                 {
                     string Note = string.Empty;
@@ -59,5 +60,6 @@ namespace getGcisClient.Output
 
             }
         }
+
     }
 }

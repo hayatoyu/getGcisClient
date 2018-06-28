@@ -14,11 +14,16 @@ namespace getGcisClient.Output
     {
         protected List<CompanyInfoResult> result { get; set; }
 
-        protected OutputFile(List<CompanyInfoResult> result)
+        public OutputFile(List<CompanyInfoResult> result)
         {
             this.result = result;
         }
 
         public abstract void Output(string FilePath);
+
+        protected List<CompanyInfoResult> CompanySort(List<CompanyInfoResult> result)
+        {
+            return (from c in result orderby c.Paid_In_Capital_Amount, c.Company_Name ascending select c).ToList<CompanyInfoResult>();
+        }
     }
 }
