@@ -64,7 +64,10 @@ namespace getGcisClient.Output
                 DataRow.CreateCell(8).SetCellValue(result[i].Company_Setup_Date);
                 DataRow.CreateCell(9).SetCellValue(result[i].Change_Of_Approval_Data);
                 if (result[i].Duplicate)
-                    Note += "此名稱有多筆公司資料";
+                {
+                    Note += "此名稱有多筆公司資料" + System.Environment.NewLine;
+                    Note += result[i].NameMatch ? "系統已搜尋到公司名稱完全吻合之公司資料" : "系統未搜尋到公司名稱完全吻合之公司資料，建議人工檢查";
+                }                                    
                 if (result[i].ErrNotice)
                     Note += "查詢此筆資料時連線錯誤，請人工確認是否正確";
                 if (result[i].NoData)

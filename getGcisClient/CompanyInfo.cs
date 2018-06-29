@@ -48,10 +48,15 @@ namespace getGcisClient
         [JsonProperty("Duplicate")]
         public bool Duplicate { get; set; }
 
+        [JsonProperty("NameMatch")]
+        public bool NameMatch { get; set; }
+
         [JsonProperty("ErrNotice")]
         public bool ErrNotice { get; set; }
 
         [JsonProperty("NoData")]
         public bool NoData { get; set; }
+
+        
     }
 }
