@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -23,6 +24,7 @@ namespace getGcisClient
         public int port { private set; get; }
         public string FilePath { private set; get; }
         public string OutputFolder { private set; get; }
+        public int TimeOut { private set; get; }
         private TcpClient client;
         private List<string> comList;
         private Form1 myForm;
@@ -38,10 +40,13 @@ namespace getGcisClient
             try
             {
                 this.port = int.Parse(port);
+                this.TimeOut = int.Parse(ConfigurationManager.AppSettings["timeOut"]);
             }
             catch (Exception e)
             {
-                Console.WriteLine(e.Message);
+                PrintErrMsgToConsole(e);
+                this.port = 1357;
+                this.TimeOut = 60000;
             }
             this.FilePath = FilePath;
             this.OutputFolder = OutputFolder;
@@ -63,7 +68,7 @@ namespace getGcisClient
             }
             catch (Exception e)
             {
-                Console.WriteLine(e.Message);
+                PrintErrMsgToConsole(e);
             }
             finally
             {
@@ -127,6 +132,7 @@ namespace getGcisClient
                             ComRequest request = new ComRequest { comList = comList.ToArray() };
                             SendToServer(netStream, JsonConvert.SerializeObject(request));
                             Console.WriteLine("送出查詢清單...");
+                            client.ReceiveTimeout = TimeOut;
                         }
                         else if (recMessage.StartsWith("result:"))
                         {
@@ -139,7 +145,7 @@ namespace getGcisClient
                             }
                             catch (Exception e)
                             {
-                                Console.WriteLine(e.Message);
+                                PrintErrMsgToConsole(e);
                             }
                         }
                     }
@@ -203,8 +209,20 @@ namespace getGcisClient
         private void SendToServer(NetworkStream ns, string content)
         {
             byte[] sendByte = Encoding.UTF8.GetBytes(content);
-            ns.Write(sendByte, 0, sendByte.Length);
-            ns.Flush();
+            try
+            {
+                ns.Write(sendByte, 0, sendByte.Length);
+                ns.Flush();
+            }
+            catch(Exception e)
+            {
+                PrintErrMsgToConsole(e);
+            }
+        }
+
+        private void PrintErrMsgToConsole(Exception e)
+        {
+            Console.WriteLine("錯誤類型：{0}\n錯誤訊息：{1}\n堆疊：{2}", e.GetType(), e.Message, e.StackTrace);
         }
     }
 }
