@@ -23,7 +23,9 @@ namespace getGcisClient.Output
 
         protected List<CompanyInfoResult> CompanySort(List<CompanyInfoResult> result)
         {
-            return (from c in result orderby c.Paid_In_Capital_Amount,c.Capital_Stock_Amount,c.Business_Accounting_NO, c.Company_Name ascending select c).ToList<CompanyInfoResult>();
+            return (from c in result
+                    orderby c.Paid_In_Capital_Amount ascending,c.Capital_Stock_Amount ascending,c.Business_Accounting_NO ascending
+                    select c).ToList<CompanyInfoResult>();
         }
     }
 }

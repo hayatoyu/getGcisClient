@@ -177,6 +177,7 @@ namespace getGcisClient
         {
             IWorkbook wb = null;
             ISheet ws = null;
+            IRow row = null;
             int index = 1;
             using (FileStream fs = new FileStream(FilePath, FileMode.Open, FileAccess.Read))
             {
@@ -190,18 +191,38 @@ namespace getGcisClient
                 // 先取得要處理的最初行
                 while (ws.GetRow(index) != null)
                 {
-                    if (ws.GetRow(index).GetCell(1) == null
-                        || string.IsNullOrEmpty(ws.GetRow(index).GetCell(1).StringCellValue))
+                    row = ws.GetRow(index);
+
+                    /* NPOI 對 Excel 的操作，沒有像 C# Cell.Value2(dynamic) 的用法
+                     * 應該是 Java 本身就不支援 dynamic 型別所致
+                     * 所以要讀取 Value 前，需要先將單元格轉換為對應的型別
+                     * */
+                                      
+                    if(row.GetCell(1) == null)
+                    {                        
                         break;
+                    }
+                    else
+                    {
+                        row.GetCell(1).SetCellType(CellType.String);
+                        if(string.IsNullOrEmpty(row.GetCell(1).StringCellValue))
+                        {                           
+                            break;
+                        }
+                    }
                     index++;
                 }
-
+                row.GetCell(0).SetCellType(CellType.String);
                 // 執行到最末行
-                while (ws.GetRow(index) != null
-                    && !string.IsNullOrEmpty(ws.GetRow(index).GetCell(0).StringCellValue))
+                while (row != null
+                    && !string.IsNullOrEmpty(row.GetCell(0).StringCellValue))
                 {
-                    comList.Add(ws.GetRow(index).GetCell(0).StringCellValue);
+                    comList.Add(row.GetCell(0).StringCellValue);
                     index++;
+                    row = ws.GetRow(index);
+                    //Console.WriteLine(index);
+                    if(row != null && row.GetCell(0) != null)
+                        row.GetCell(0).SetCellType(CellType.String);
                 }
             }
         }
