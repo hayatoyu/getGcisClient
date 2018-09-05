@@ -1,0 +1,163 @@
+列出磁碟區 WIN7 的資料夾 PATH
+磁碟區序號為 8EB5-0721
+C:\USERS\51942\SOURCE\REPOS\GETGCISCLIENT
+│  .gitattributes
+│  .gitignore
+│  getGcisClient.sln
+│  outputClient.txt
+│  
+├─getGcisClient
+│  │  App.config
+│  │  Client.cs
+│  │  CompanyInfo.cs
+│  │  ComRequest.cs
+│  │  Form1.cs
+│  │  Form1.Designer.cs
+│  │  Form1.resx
+│  │  getGcisClient.csproj
+│  │  packages.config
+│  │  Program.cs
+│  │  
+│  ├─bin
+│  │  │  getGcisClient_v1.1.zip
+│  │  │  
+│  │  ├─Debug
+│  │  │      getGcisClient.exe
+│  │  │      getGcisClient.exe.config
+│  │  │      getGcisClient.pdb
+│  │  │      ICSharpCode.SharpZipLib.dll
+│  │  │      Newtonsoft.Json.dll
+│  │  │      Newtonsoft.Json.xml
+│  │  │      NPOI.dll
+│  │  │      NPOI.OOXML.dll
+│  │  │      NPOI.OpenXml4Net.dll
+│  │  │      NPOI.OpenXmlFormats.dll
+│  │  │      NPOI.xml
+│  │  │      
+│  │  └─getGcisClient
+│  │          getGcisClient.exe
+│  │          getGcisClient.exe.config
+│  │          getGcisClient.pdb
+│  │          ICSharpCode.SharpZipLib.dll
+│  │          Newtonsoft.Json.dll
+│  │          Newtonsoft.Json.xml
+│  │          NPOI.dll
+│  │          NPOI.OOXML.dll
+│  │          NPOI.OpenXml4Net.dll
+│  │          NPOI.OpenXmlFormats.dll
+│  │          NPOI.xml
+│  │          
+│  ├─obj
+│  │  └─Debug
+│  │      │  DesignTimeResolveAssemblyReferencesInput.cache
+│  │      │  getGcisClient.csproj.CopyComplete
+│  │      │  getGcisClient.csproj.CoreCompileInputs.cache
+│  │      │  getGcisClient.csproj.FileListAbsolute.txt
+│  │      │  getGcisClient.csproj.GenerateResource.cache
+│  │      │  getGcisClient.csprojAssemblyReference.cache
+│  │      │  getGcisClient.exe
+│  │      │  getGcisClient.Form1.resources
+│  │      │  getGcisClient.pdb
+│  │      │  getGcisClient.Properties.Resources.resources
+│  │      │  TemporaryGeneratedFile_036C0B5B-1481-4323-8D20-8F5ADCB23D92.cs
+│  │      │  TemporaryGeneratedFile_5937a670-0e60-4077-877b-f7221da3dda1.cs
+│  │      │  TemporaryGeneratedFile_E7A71F73-0F8D-4B9B-B56E-8E70B10BC5D3.cs
+│  │      │  
+│  │      └─TempPE
+│  ├─Output
+│  │      OutputCsv.cs
+│  │      OutputExcel.cs
+│  │      OutputFile.cs
+│  │      
+│  └─Properties
+│          AssemblyInfo.cs
+│          Resources.Designer.cs
+│          Resources.resx
+│          Settings.Designer.cs
+│          Settings.settings
+│          
+└─packages
+    ├─Newtonsoft.Json.11.0.2
+    │  │  LICENSE.md
+    │  │  Newtonsoft.Json.11.0.2.nupkg
+    │  │  
+    │  └─lib
+    │      ├─net20
+    │      │      Newtonsoft.Json.dll
+    │      │      Newtonsoft.Json.xml
+    │      │      
+    │      ├─net35
+    │      │      Newtonsoft.Json.dll
+    │      │      Newtonsoft.Json.xml
+    │      │      
+    │      ├─net40
+    │      │      Newtonsoft.Json.dll
+    │      │      Newtonsoft.Json.xml
+    │      │      
+    │      ├─net45
+    │      │      Newtonsoft.Json.dll
+    │      │      Newtonsoft.Json.xml
+    │      │      
+    │      ├─netstandard1.0
+    │      │      Newtonsoft.Json.dll
+    │      │      Newtonsoft.Json.xml
+    │      │      
+    │      ├─netstandard1.3
+    │      │      Newtonsoft.Json.dll
+    │      │      Newtonsoft.Json.xml
+    │      │      
+    │      ├─netstandard2.0
+    │      │      Newtonsoft.Json.dll
+    │      │      Newtonsoft.Json.xml
+    │      │      
+    │      ├─portable-net40+sl5+win8+wp8+wpa81
+    │      │      Newtonsoft.Json.dll
+    │      │      Newtonsoft.Json.xml
+    │      │      
+    │      └─portable-net45+win8+wp8+wpa81
+    │              Newtonsoft.Json.dll
+    │              Newtonsoft.Json.xml
+    │              
+    ├─NPOI.2.3.0
+    │  │  LICENSE
+    │  │  NPOI.2.3.0.nupkg
+    │  │  Read Me.txt
+    │  │  Release Notes.txt
+    │  │  
+    │  ├─lib
+    │  │  ├─net20
+    │  │  │      NPOI.dll
+    │  │  │      NPOI.OOXML.dll
+    │  │  │      NPOI.OpenXml4Net.dll
+    │  │  │      NPOI.OpenXmlFormats.dll
+    │  │  │      NPOI.XML
+    │  │  │      
+    │  │  └─net40
+    │  │          NPOI.dll
+    │  │          NPOI.OOXML.dll
+    │  │          NPOI.OpenXml4Net.dll
+    │  │          NPOI.OpenXmlFormats.dll
+    │  │          NPOI.XML
+    │  │          
+    │  └─logo
+    │          120_120.jpg
+    │          240_240.png
+    │          32_32.jpg
+    │          60_60.jpg
+    │          
+    └─SharpZipLib.0.86.0
+        │  SharpZipLib.0.86.0.nupkg
+        │  
+        └─lib
+            ├─11
+            │      ICSharpCode.SharpZipLib.dll
+            │      
+            ├─20
+            │      ICSharpCode.SharpZipLib.dll
+            │      
+            ├─SL3
+            │      SharpZipLib.Silverlight3.dll
+            │      
+            └─SL4
+                    SharpZipLib.Silverlight4.dll
+                    

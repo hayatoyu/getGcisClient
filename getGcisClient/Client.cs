@@ -134,6 +134,14 @@ namespace getGcisClient
                             Console.WriteLine("送出查詢清單...");
                             client.ReceiveTimeout = TimeOut;
                         }
+                        else if (recMessage.Equals("JsonErr"))
+                        {
+                            Console.WriteLine("商業司 API 回傳錯誤，請洽程式開發人員");
+                            writer.Output(savepath);
+                            result.Clear();
+                            client.Close();
+                            MessageBox.Show("商業司 API 錯誤，若有部份資料已導出，請洽程式開發人員");
+                        }
                         else if (recMessage.StartsWith("result:"))
                         {
                             // 公司資料
