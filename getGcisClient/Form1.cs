@@ -27,6 +27,12 @@ namespace getGcisClient
         [DllImport("kernel32.dll", SetLastError = true)]
         public static extern void FreeConsole();
 
+        enum QueryType
+        {
+            Server,Local
+        }
+            
+
         public Form1()
         {
             InitializeComponent();
@@ -42,7 +48,7 @@ namespace getGcisClient
         {
             OpenFileDialog dialog = new OpenFileDialog();
             dialog.Title = "Select .xls File";
-            dialog.Filter = "xls files (*.*)|*.xls";
+            dialog.Filter = "xls files (*.xls;*.xlsx)|*.xls;*.xlsx";
             dialog.ShowDialog();
             txt_FilePath.Text = dialog.FileName;
         }
@@ -57,51 +63,54 @@ namespace getGcisClient
         private void btn_Connect_Click(object sender, EventArgs e)
         {
             // 先檢查各項設定有沒有設
-            if(ValidateConnect())
+            if(ValidateConnect(QueryType.Server))
             {
                 Console.WriteLine("資料驗證成功...準備連線至 {0}，連接埠 {1}...",txt_ServerIP.Text,txt_Port.Text);
 
                 Client client = new Client(txt_ServerIP.Text, txt_Port.Text, txt_FilePath.Text, txt_SaveFolder.Text, this);
                 btn_Connect.Enabled = false;        // 查詢過程相當漫長，為了防止 User 手賤一直給我點連線按鈕，我乾脆直接把按鈕關掉直到查詢完畢。
-                client.Connect();
+                client.StartQuery();
 
             }
         }
 
-        private bool ValidateConnect()
+        private bool ValidateConnect(QueryType qType)
         {
             bool v_server = true,v_port = true,v_filepath = true,v_folderpath = true,v_outfiletype = true;
             var ip = txt_ServerIP.Text.Split('.');
-            int port;            
+            int port;
 
-            // 判斷Server IP是否填寫正確
-            if(ip.Length == 4)
+            if (qType.Equals(QueryType.Server))
             {
-                try
+                // 判斷Server IP是否填寫正確
+                if (ip.Length == 4)
                 {
-                    /*
-                     * 判斷 IP 這我沒有用正規表示式，因為要寫蠻長的(限制 0 ~ 255 的範圍)
-                     * 相反的我是直接把字串用 "." 拆開後，針對拆開後的每個字串轉 int，並判斷有沒有在合法範圍之內
-                     * 如果字串不能轉為int，跳出例外的話，也表示這值不正確。
-                     */
-                    v_server = ip.All(i => int.Parse(i) >= 0 && int.Parse(i) <= 255);                    
+                    try
+                    {
+                        /*
+                         * 判斷 IP 這我沒有用正規表示式，因為要寫蠻長的(限制 0 ~ 255 的範圍)
+                         * 相反的我是直接把字串用 "." 拆開後，針對拆開後的每個字串轉 int，並判斷有沒有在合法範圍之內
+                         * 如果字串不能轉為int，跳出例外的話，也表示這值不正確。
+                         */
+                        v_server = ip.All(i => int.Parse(i) >= 0 && int.Parse(i) <= 255);
+                    }
+                    catch (Exception e)
+                    {
+                        v_server = false;
+                    }
                 }
-                catch(Exception e)
+                else
                 {
                     v_server = false;
-                }                
-            }
-            else
-            {
-                v_server = false;
-            }
-            if(!v_server)
-                MessageBox.Show("Server端IP設定有誤，請檢查");
+                }
+                if (!v_server)
+                    MessageBox.Show("Server端IP設定有誤，請檢查");
 
-            // 判斷port是否填寫正確
-            v_port = int.TryParse(txt_Port.Text, out port);
-            if (!v_port || (port < 1025 || port > 65535))
-                MessageBox.Show("連接埠設定有誤，請檢查。(範圍：1025~65535)");
+                // 判斷port是否填寫正確
+                v_port = int.TryParse(txt_Port.Text, out port);
+                if (!v_port || (port < 1025 || port > 65535))
+                    MessageBox.Show("連接埠設定有誤，請檢查。(範圍：1025~65535)");
+            }
 
             // 判斷檔案列表路徑是否正確
             txt_FilePath.Text = txt_FilePath.Text.Replace("\"", string.Empty);
@@ -124,6 +133,16 @@ namespace getGcisClient
             return v_server && v_port && v_filepath && v_folderpath && v_outfiletype;
         }
 
-        
+        private void btn_Query_Click(object sender, EventArgs e)
+        {
+            if(ValidateConnect(QueryType.Local))
+            {
+                //QueryAction qAction = new QueryAction(txt_FilePath.Text, txt_SaveFolder.Text, this);
+                btn_Query.Enabled = false;
+                LocalQuery lQuery = new LocalQuery(txt_FilePath.Text, txt_SaveFolder.Text, this);
+                lQuery.StartQuery();
+                btn_Query.Enabled = true;
+            }
+        }
     }
 }

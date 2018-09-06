@@ -73,11 +73,13 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="LocalQuery.cs" />
     <Compile Include="Output\OutputCsv.cs" />
     <Compile Include="Output\OutputExcel.cs" />
     <Compile Include="Output\OutputFile.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="QueryAction.cs" />
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>

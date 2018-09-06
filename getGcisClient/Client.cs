@@ -18,18 +18,9 @@ using getGcisClient.Output;
 
 namespace getGcisClient
 {
-    class Client
+    class Client : QueryAction
     {
-        public string IPAddr { private set; get; }
-        public int port { private set; get; }
-        public string FilePath { private set; get; }
-        public string OutputFolder { private set; get; }
-        public int TimeOut { private set; get; }
-        private TcpClient client;
-        private List<string> comList;
-        private Form1 myForm;
-        delegate void UpdateBtn();
-        delegate string returnFileType();
+        
 
         /*
          * IP 和 Port 有預設值，存放在 AppConfig檔案中
@@ -49,12 +40,12 @@ namespace getGcisClient
                 this.TimeOut = 60000;
             }
             this.FilePath = FilePath;
-            this.OutputFolder = OutputFolder;
+            this.SaveFolder = OutputFolder;
             this.comList = new List<string>();
             this.myForm = form;
         }
 
-        public void Connect()
+        public override void StartQuery()        
         {
 
             if (client != null)
@@ -78,23 +69,26 @@ namespace getGcisClient
             
             
         }
+
+
+
         /*
-         * 當收到 Server 傳來的訊息時
-         *  1. added 表示已經收到連線請求，並排入等待。
-         *  2. ready 表示 Server 已經準備好接收查詢列表。
-         *  3. 收到 result: 開頭的訊息，表示此為 Server 回傳的公司基本資料。
-         *  4. finish 表示查詢作業已經完成。
-         *  Server 回傳的資料因為是一筆一筆回傳，基本上不會超過 buffer 大小。
-         *  本來有想過全部查完再一次回傳，但風險太高，途中如果發生錯誤，那 Client 可能經過漫長等待還無法收到回應。
-         *  一筆一筆傳先儲存在 Client 端，即使 Server 發生錯誤，Client 也能輸出部分資料，下次再從還沒查的地方繼續。
-         */
+* 當收到 Server 傳來的訊息時
+*  1. added 表示已經收到連線請求，並排入等待。
+*  2. ready 表示 Server 已經準備好接收查詢列表。
+*  3. 收到 result: 開頭的訊息，表示此為 Server 回傳的公司基本資料。
+*  4. finish 表示查詢作業已經完成。
+*  Server 回傳的資料因為是一筆一筆回傳，基本上不會超過 buffer 大小。
+*  本來有想過全部查完再一次回傳，但風險太高，途中如果發生錯誤，那 Client 可能經過漫長等待還無法收到回應。
+*  一筆一筆傳先儲存在 Client 端，即使 Server 發生錯誤，Client 也能輸出部分資料，下次再從還沒查的地方繼續。
+*/
         private void CommunicateWithServer()
         {
             int reclength = 0;
             NetworkStream netStream = client.GetStream();
             byte[] buffer = new byte[1024];
             List<CompanyInfoResult> result = new List<CompanyInfoResult>();
-            string savepath = OutputFolder + @"\" + DateTime.Now.ToString("yyyyMMddHHmmss");
+            string savepath = SaveFolder + @"\" + DateTime.Now.ToString("yyyyMMddHHmmss");
             // 這裡要讀取使用者選擇的輸出檔案類型，同樣要委託主執行緒去取得。
             savepath += myForm.Invoke(new returnFileType(() => { return myForm.cb_OutputType.SelectedItem.ToString(); }));
             OutputFile writer = null;
@@ -176,64 +170,8 @@ namespace getGcisClient
                 
             
 
-        }
-
-        /*
-         * 讀取查詢列表，沒什麼好說的
-         */
-        private void ReadFromExcel()
-        {
-            IWorkbook wb = null;
-            ISheet ws = null;
-            IRow row = null;
-            int index = 1;
-            using (FileStream fs = new FileStream(FilePath, FileMode.Open, FileAccess.Read))
-            {
-                if (FilePath.EndsWith(".xlsx"))
-                    wb = new XSSFWorkbook(fs);
-                else
-                    wb = new HSSFWorkbook(fs);
-
-                ws = wb.GetSheetAt(0);
-
-                // 先取得要處理的最初行
-                while (ws.GetRow(index) != null)
-                {
-                    row = ws.GetRow(index);
-
-                    /* NPOI 對 Excel 的操作，沒有像 C# Cell.Value2(dynamic) 的用法
-                     * 應該是 Java 本身就不支援 dynamic 型別所致
-                     * 所以要讀取 Value 前，需要先將單元格轉換為對應的型別
-                     * */
-                                      
-                    if(row.GetCell(1) == null)
-                    {                        
-                        break;
-                    }
-                    else
-                    {
-                        row.GetCell(1).SetCellType(CellType.String);
-                        if(string.IsNullOrEmpty(row.GetCell(1).StringCellValue))
-                        {                           
-                            break;
-                        }
-                    }
-                    index++;
-                }
-                row.GetCell(0).SetCellType(CellType.String);
-                // 執行到最末行
-                while (row != null
-                    && !string.IsNullOrEmpty(row.GetCell(0).StringCellValue))
-                {
-                    comList.Add(row.GetCell(0).StringCellValue);
-                    index++;
-                    row = ws.GetRow(index);
-                    //Console.WriteLine(index);
-                    if(row != null && row.GetCell(0) != null)
-                        row.GetCell(0).SetCellType(CellType.String);
-                }
-            }
-        }
+        }        
+        
 
         private void SendToServer(NetworkStream ns, string content)
         {
@@ -249,9 +187,6 @@ namespace getGcisClient
             }
         }
 
-        private void PrintErrMsgToConsole(Exception e)
-        {
-            Console.WriteLine("錯誤類型：{0}\n錯誤訊息：{1}\n堆疊：{2}", e.GetType(), e.Message, e.StackTrace);
-        }
+        
     }
 }
