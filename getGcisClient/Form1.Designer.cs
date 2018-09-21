@@ -29,9 +29,9 @@
         private void InitializeComponent()
         {
             this.panel1 = new System.Windows.Forms.Panel();
+            this.btn_Query = new System.Windows.Forms.Button();
             this.btn_Connect = new System.Windows.Forms.Button();
             this.txt_Port = new System.Windows.Forms.TextBox();
-            this.txt_ServerIP = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
@@ -43,7 +43,7 @@
             this.txt_FilePath = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
-            this.btn_Query = new System.Windows.Forms.Button();
+            this.cb_ServerList = new System.Windows.Forms.ComboBox();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.SuspendLayout();
@@ -52,16 +52,26 @@
             // 
             this.panel1.BackColor = System.Drawing.SystemColors.Control;
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.panel1.Controls.Add(this.cb_ServerList);
             this.panel1.Controls.Add(this.btn_Query);
             this.panel1.Controls.Add(this.btn_Connect);
             this.panel1.Controls.Add(this.txt_Port);
-            this.panel1.Controls.Add(this.txt_ServerIP);
             this.panel1.Controls.Add(this.label2);
             this.panel1.Controls.Add(this.label1);
             this.panel1.Location = new System.Drawing.Point(34, 36);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(200, 144);
             this.panel1.TabIndex = 0;
+            // 
+            // btn_Query
+            // 
+            this.btn_Query.Location = new System.Drawing.Point(17, 106);
+            this.btn_Query.Name = "btn_Query";
+            this.btn_Query.Size = new System.Drawing.Size(65, 23);
+            this.btn_Query.TabIndex = 5;
+            this.btn_Query.Text = "直接查";
+            this.btn_Query.UseVisualStyleBackColor = true;
+            this.btn_Query.Click += new System.EventHandler(this.btn_Query_Click);
             // 
             // btn_Connect
             // 
@@ -79,13 +89,6 @@
             this.txt_Port.Name = "txt_Port";
             this.txt_Port.Size = new System.Drawing.Size(100, 22);
             this.txt_Port.TabIndex = 3;
-            // 
-            // txt_ServerIP
-            // 
-            this.txt_ServerIP.Location = new System.Drawing.Point(57, 19);
-            this.txt_ServerIP.Name = "txt_ServerIP";
-            this.txt_ServerIP.Size = new System.Drawing.Size(100, 22);
-            this.txt_ServerIP.TabIndex = 2;
             // 
             // label2
             // 
@@ -129,7 +132,7 @@
             ".xls",
             ".xlsx"});
             this.cb_OutputType.Location = new System.Drawing.Point(137, 104);
-            this.cb_OutputType.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.cb_OutputType.Margin = new System.Windows.Forms.Padding(2);
             this.cb_OutputType.Name = "cb_OutputType";
             this.cb_OutputType.Size = new System.Drawing.Size(92, 20);
             this.cb_OutputType.TabIndex = 7;
@@ -196,15 +199,15 @@
             this.label3.TabIndex = 0;
             this.label3.Text = "公司名稱列表(.xls)：";
             // 
-            // btn_Query
+            // cb_ServerList
             // 
-            this.btn_Query.Location = new System.Drawing.Point(17, 106);
-            this.btn_Query.Name = "btn_Query";
-            this.btn_Query.Size = new System.Drawing.Size(65, 23);
-            this.btn_Query.TabIndex = 5;
-            this.btn_Query.Text = "直接查";
-            this.btn_Query.UseVisualStyleBackColor = true;
-            this.btn_Query.Click += new System.EventHandler(this.btn_Query_Click);
+            this.cb_ServerList.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cb_ServerList.DropDownWidth = 120;
+            this.cb_ServerList.FormattingEnabled = true;
+            this.cb_ServerList.Location = new System.Drawing.Point(57, 18);
+            this.cb_ServerList.Name = "cb_ServerList";
+            this.cb_ServerList.Size = new System.Drawing.Size(100, 20);
+            this.cb_ServerList.TabIndex = 6;
             // 
             // Form1
             // 
@@ -228,7 +231,6 @@
         private System.Windows.Forms.Panel panel1;
         public System.Windows.Forms.Button btn_Connect;
         private System.Windows.Forms.TextBox txt_Port;
-        private System.Windows.Forms.TextBox txt_ServerIP;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Panel panel2;
@@ -241,6 +243,7 @@
         public System.Windows.Forms.ComboBox cb_OutputType;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Button btn_Query;
+        private System.Windows.Forms.ComboBox cb_ServerList;
     }
 }
 

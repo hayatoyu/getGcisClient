@@ -31,12 +31,25 @@ namespace getGcisClient
         {
             Server,Local
         }
-            
+        
+        private class ServerList
+        {
+            public string Name { get; set; }
+            public string Value { get; set; }
+            public override string ToString()
+            {
+                return Value;
+            }
+        }
 
         public Form1()
         {
             InitializeComponent();
-            txt_ServerIP.Text = ConfigurationManager.AppSettings["serverIP"];
+            //txt_ServerIP.Text = ConfigurationManager.AppSettings["serverIP"];
+            cb_ServerList.Items.Add(new ServerList { Name = "測試用(10.10.8.30)", Value = "10.10.8.30" });
+            cb_ServerList.Items.Add(new ServerList { Name = "正式用(10.1.199.146)",Value = "10.1.199.146" });
+            cb_ServerList.DisplayMember = "Name";
+            
             txt_Port.Text = ConfigurationManager.AppSettings["port"];
             AllocConsole();     // 這行的意思是我把程式中 Console 輸出的訊息，都顯示到 Console 的視窗中。
             //Console.Beep();
@@ -65,9 +78,10 @@ namespace getGcisClient
             // 先檢查各項設定有沒有設
             if(ValidateConnect(QueryType.Server))
             {
-                Console.WriteLine("資料驗證成功...準備連線至 {0}，連接埠 {1}...",txt_ServerIP.Text,txt_Port.Text);
+                Console.WriteLine("資料驗證成功...準備連線至 {0}，連接埠 {1}...",cb_ServerList.SelectedItem.ToString(),txt_Port.Text);
+                
 
-                Client client = new Client(txt_ServerIP.Text, txt_Port.Text, txt_FilePath.Text, txt_SaveFolder.Text, this);
+                Client client = new Client(cb_ServerList.SelectedItem.ToString(), txt_Port.Text, txt_FilePath.Text, txt_SaveFolder.Text, this);
                 btn_Connect.Enabled = false;        // 查詢過程相當漫長，為了防止 User 手賤一直給我點連線按鈕，我乾脆直接把按鈕關掉直到查詢完畢。
                 client.StartQuery();
 
@@ -77,7 +91,7 @@ namespace getGcisClient
         private bool ValidateConnect(QueryType qType)
         {
             bool v_server = true,v_port = true,v_filepath = true,v_folderpath = true,v_outfiletype = true;
-            var ip = txt_ServerIP.Text.Split('.');
+            var ip = cb_ServerList.SelectedItem.ToString().Split('.');
             int port;
 
             if (qType.Equals(QueryType.Server))
