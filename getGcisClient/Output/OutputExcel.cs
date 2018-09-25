@@ -51,13 +51,13 @@ namespace getGcisClient.Output
                 DataRow.CreateCell(1).SetCellValue(result[i].Business_Accounting_NO);
                 DataRow.CreateCell(2).SetCellValue(result[i].Company_Status_Desc);
                 if (result[i].Capital_Stock_Amount != null)
-                    DataRow.CreateCell(3).SetCellValue(result[i].Capital_Stock_Amount.ToString());
+                    DataRow.CreateCell(3).SetCellValue(Convert.ToDouble(result[i].Capital_Stock_Amount));
                 else
-                    DataRow.CreateCell(3).SetCellValue("0");
+                    DataRow.CreateCell(3).SetCellValue(Convert.ToDouble("0"));
                 if (result[i].Paid_In_Capital_Amount != null)
-                    DataRow.CreateCell(4).SetCellValue(result[i].Paid_In_Capital_Amount.ToString());
+                    DataRow.CreateCell(4).SetCellValue(Convert.ToDouble(result[i].Paid_In_Capital_Amount));
                 else
-                    DataRow.CreateCell(4).SetCellValue("0");
+                    DataRow.CreateCell(4).SetCellValue(Convert.ToDouble("0"));
                 DataRow.CreateCell(5).SetCellValue(result[i].Responsible_Name);
                 DataRow.CreateCell(6).SetCellValue(result[i].Company_Location);
                 DataRow.CreateCell(7).SetCellValue(result[i].Register_Organization_Desc);
