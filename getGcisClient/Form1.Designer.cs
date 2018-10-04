@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.panel1 = new System.Windows.Forms.Panel();
+            this.cb_ServerList = new System.Windows.Forms.ComboBox();
             this.btn_Query = new System.Windows.Forms.Button();
             this.btn_Connect = new System.Windows.Forms.Button();
             this.txt_Port = new System.Windows.Forms.TextBox();
@@ -43,7 +44,6 @@
             this.txt_FilePath = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
-            this.cb_ServerList = new System.Windows.Forms.ComboBox();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.SuspendLayout();
@@ -62,6 +62,15 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(200, 144);
             this.panel1.TabIndex = 0;
+            // 
+            // cb_ServerList
+            // 
+            this.cb_ServerList.DropDownWidth = 120;
+            this.cb_ServerList.FormattingEnabled = true;
+            this.cb_ServerList.Location = new System.Drawing.Point(57, 18);
+            this.cb_ServerList.Name = "cb_ServerList";
+            this.cb_ServerList.Size = new System.Drawing.Size(100, 20);
+            this.cb_ServerList.TabIndex = 6;
             // 
             // btn_Query
             // 
@@ -198,16 +207,6 @@
             this.label3.Size = new System.Drawing.Size(113, 12);
             this.label3.TabIndex = 0;
             this.label3.Text = "公司名稱列表(.xls)：";
-            // 
-            // cb_ServerList
-            // 
-            this.cb_ServerList.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cb_ServerList.DropDownWidth = 120;
-            this.cb_ServerList.FormattingEnabled = true;
-            this.cb_ServerList.Location = new System.Drawing.Point(57, 18);
-            this.cb_ServerList.Name = "cb_ServerList";
-            this.cb_ServerList.Size = new System.Drawing.Size(100, 20);
-            this.cb_ServerList.TabIndex = 6;
             // 
             // Form1
             // 
