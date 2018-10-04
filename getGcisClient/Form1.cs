@@ -91,7 +91,18 @@ namespace getGcisClient
         private bool ValidateConnect(QueryType qType)
         {
             bool v_server = true,v_port = true,v_filepath = true,v_folderpath = true,v_outfiletype = true;
-            var ip = cb_ServerList.SelectedItem.ToString().Split('.');
+            string[] ip = null;
+            if (cb_ServerList.SelectedItem != null)
+            {
+                ip = cb_ServerList.SelectedItem.ToString().Split('.');
+            }
+            else
+            {
+                if (!string.IsNullOrEmpty(cb_ServerList.Text))
+                    ip = cb_ServerList.Text.ToString().Split('.');
+                else
+                    ip = "0.0.0.0".Split('.');
+            }
             int port;
 
             if (qType.Equals(QueryType.Server))
