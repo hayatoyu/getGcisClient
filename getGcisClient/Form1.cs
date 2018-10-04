@@ -42,10 +42,11 @@ namespace getGcisClient
             }
         }
 
+        private ServerList serverList = null;
+
         public Form1()
         {
-            InitializeComponent();
-            //txt_ServerIP.Text = ConfigurationManager.AppSettings["serverIP"];
+            InitializeComponent();            
             cb_ServerList.Items.Add(new ServerList { Name = "測試用(10.10.8.30)", Value = "10.10.8.30" });
             cb_ServerList.Items.Add(new ServerList { Name = "正式用(10.1.199.146)",Value = "10.1.199.146" });
             cb_ServerList.DisplayMember = "Name";
@@ -78,10 +79,10 @@ namespace getGcisClient
             // 先檢查各項設定有沒有設
             if(ValidateConnect(QueryType.Server))
             {
-                Console.WriteLine("資料驗證成功...準備連線至 {0}，連接埠 {1}...",cb_ServerList.SelectedItem.ToString(),txt_Port.Text);
+                Console.WriteLine("資料驗證成功...準備連線至 {0}，連接埠 {1}...",serverList.Value,txt_Port.Text);
                 
 
-                Client client = new Client(cb_ServerList.SelectedItem.ToString(), txt_Port.Text, txt_FilePath.Text, txt_SaveFolder.Text, this);
+                Client client = new Client(serverList.Value, txt_Port.Text, txt_FilePath.Text, txt_SaveFolder.Text, this);
                 btn_Connect.Enabled = false;        // 查詢過程相當漫長，為了防止 User 手賤一直給我點連線按鈕，我乾脆直接把按鈕關掉直到查詢完畢。
                 client.StartQuery();
 
@@ -94,14 +95,21 @@ namespace getGcisClient
             string[] ip = null;
             if (cb_ServerList.SelectedItem != null)
             {
+                serverList = new ServerList { Value = cb_ServerList.SelectedItem.ToString() };
                 ip = cb_ServerList.SelectedItem.ToString().Split('.');
             }
             else
             {
                 if (!string.IsNullOrEmpty(cb_ServerList.Text))
+                {
                     ip = cb_ServerList.Text.ToString().Split('.');
+                    serverList = new ServerList { Value = cb_ServerList.Text };
+                }                    
                 else
+                {
                     ip = "0.0.0.0".Split('.');
+                    serverList = new ServerList { Value = "0.0.0.0" };
+                }
             }
             int port;
 
