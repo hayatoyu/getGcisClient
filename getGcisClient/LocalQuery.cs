@@ -22,7 +22,7 @@ namespace getGcisClient
             this.SaveFolder = SaveFolder;
             this.myForm = form1;
             comResults = new List<CompanyInfoResult>();
-            comList = new List<string>();
+            comList = new List<CompanyInfo>();
         }
 
         public override void StartQuery()
@@ -36,9 +36,10 @@ namespace getGcisClient
                 writer = new OutputExcel(comResults);
             
             StringBuilder stbr = new StringBuilder();
-            string param = "Company_Name like comName and Company_Status eq 01";
+            string paramCom = "Company_Name like comName and Company_Status eq 01";
+            string paramID = "Business_Accounting_NO eq comID";
             int errCount = 0, index = 0;
-            string comName;            
+            string comName,comID;            
             Console.WriteLine("程式將從本地直接查詢商業司 API...");            
             ReadFromExcel();
             Console.WriteLine("讀取公司列表完成...準備開始查詢 API...");
@@ -51,12 +52,28 @@ namespace getGcisClient
                     Console.WriteLine("已連續查詢 100 條，將等待 10 秒繼續...");
                     Thread.Sleep(10000);
                 }
-                comName = comList[index].Trim();
+                comName = comList[index].Company_Name.Trim();
+                comID = comList[index].Business_Accounting_NO.Trim();
                 stbr.Clear();
-                stbr.Append("http://").Append("data.gcis.nat.gov.tw")
+
+                // 這邊分成用公司名稱和統編兩種
+                // 統編優先
+                if(!string.IsNullOrEmpty(comID))
+                {
+                    stbr.Append("http://").Append("data.gcis.nat.gov.tw")
+                        .Append("/od/data/api/5F64D864-61CB-4D0D-8AD9-492047CC1EA6")
+                        .Append("?$format=json&$filter=")
+                        .Append(paramID.Replace("comID", comID))
+                        .Append("&$skip=0&$top=50");
+                }
+                else
+                {
+                    stbr.Append("http://").Append("data.gcis.nat.gov.tw")
                                 .Append("/od/data/api/6BBA2268-1367-4B42-9CCA-BC17499EBE8C")
                                 .Append("?$format=json&$filter=")
-                                .Append(param.Replace("comName", comName));
+                                .Append(paramCom.Replace("comName", comName));
+                }
+                
                 Console.WriteLine("開始查詢第 {0} / {1} 條資料： {2} ", index + 1, comList.Count, comName);
                 HttpWebResponse response = null;
 

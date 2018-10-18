@@ -41,7 +41,7 @@ namespace getGcisClient
             }
             this.FilePath = FilePath;
             this.SaveFolder = OutputFolder;
-            this.comList = new List<string>();
+            this.comList = new List<CompanyInfo>();
             this.myForm = form;
         }
 

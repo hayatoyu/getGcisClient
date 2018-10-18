@@ -20,7 +20,7 @@ namespace getGcisClient
         public string SaveFolder { get; protected set; }
         public int TimeOut { get; protected set; }
         protected TcpClient client;
-        protected List<string> comList;
+        protected List<CompanyInfo> comList;
         protected Form1 myForm;
         protected delegate void UpdateBtn();
         protected delegate string returnFileType();
@@ -53,32 +53,46 @@ namespace getGcisClient
                      * 所以要讀取 Value 前，需要先將單元格轉換為對應的型別
                      * */
 
-                    if (row.GetCell(1) == null)
+                    if (row.GetCell(2) == null)
                     {
                         break;
                     }
                     else
                     {
-                        row.GetCell(1).SetCellType(CellType.String);
-                        if (string.IsNullOrEmpty(row.GetCell(1).StringCellValue))
+                        row.GetCell(2).SetCellType(CellType.String);                        
+                        if (string.IsNullOrEmpty(row.GetCell(2).StringCellValue))
                         {
                             break;
                         }
                     }
                     index++;
                 }
-                row.GetCell(0).SetCellType(CellType.String);
-                // 執行到最末行
-                while (row != null
-                    && !string.IsNullOrEmpty(row.GetCell(0).StringCellValue))
+                do
                 {
-                    comList.Add(row.GetCell(0).StringCellValue);
+
+                    CompanyInfo temp = new CompanyInfo();
+                    if (row.GetCell(0) != null)
+                    {
+                        row.GetCell(0).SetCellType(CellType.String);
+                        if (!string.IsNullOrEmpty(row.GetCell(0).StringCellValue))
+                            temp.Company_Name = row.GetCell(0).StringCellValue.Trim();
+                    }
+                    if (row.GetCell(1) != null)
+                    {
+                        row.GetCell(1).SetCellType(CellType.String);
+                        if (!string.IsNullOrEmpty(row.GetCell(1).StringCellValue))
+                            temp.Business_Accounting_NO = row.GetCell(1).StringCellValue.Trim().PadLeft(8, '0');
+                    }
+                    comList.Add(temp);
                     index++;
                     row = ws.GetRow(index);
-                    //Console.WriteLine(index);
-                    if (row != null && row.GetCell(0) != null)
-                        row.GetCell(0).SetCellType(CellType.String);
+
                 }
+
+                // 執行到最末行
+                while (row != null
+                    && !string.IsNullOrEmpty(row.GetCell(0).StringCellValue));
+                
             }
         }
 
