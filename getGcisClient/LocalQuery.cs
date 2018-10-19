@@ -39,7 +39,7 @@ namespace getGcisClient
             string paramCom = "Company_Name like comName and Company_Status eq 01";
             string paramID = "Business_Accounting_NO eq comID";
             int errCount = 0, index = 0;
-            string comName,comID;            
+            string comName = string.Empty,comID = string.Empty;            
             Console.WriteLine("程式將從本地直接查詢商業司 API...");            
             ReadFromExcel();
             Console.WriteLine("讀取公司列表完成...準備開始查詢 API...");
@@ -52,8 +52,11 @@ namespace getGcisClient
                     Console.WriteLine("已連續查詢 100 條，將等待 10 秒繼續...");
                     Thread.Sleep(10000);
                 }
-                comName = comList[index].Company_Name.Trim();
-                comID = comList[index].Business_Accounting_NO.Trim();
+                var currentCom = comList[index];
+                if(!string.IsNullOrEmpty(currentCom.Company_Name))
+                    comName = currentCom.Company_Name.Trim();
+                if(!string.IsNullOrEmpty(currentCom.Business_Accounting_NO))
+                    comID = currentCom.Business_Accounting_NO.Trim();
                 stbr.Clear();
 
                 // 這邊分成用公司名稱和統編兩種
