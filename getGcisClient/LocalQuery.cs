@@ -63,6 +63,7 @@ namespace getGcisClient
                 // 統編優先
                 if(!string.IsNullOrEmpty(comID))
                 {
+                    Console.WriteLine("依照公司統編 {0} 進行查詢", comID);
                     stbr.Append("http://").Append("data.gcis.nat.gov.tw")
                         .Append("/od/data/api/5F64D864-61CB-4D0D-8AD9-492047CC1EA6")
                         .Append("?$format=json&$filter=")
@@ -71,6 +72,7 @@ namespace getGcisClient
                 }
                 else
                 {
+                    Console.WriteLine("依照公司名稱 {0} 進行查詢", comName);
                     stbr.Append("http://").Append("data.gcis.nat.gov.tw")
                                 .Append("/od/data/api/6BBA2268-1367-4B42-9CCA-BC17499EBE8C")
                                 .Append("?$format=json&$filter=")
